@@ -1,0 +1,5 @@
+sceneSetups:
+- path: Assets/ModernSupermarket/Scenes/Scene_Supermarket/Supermarket.unity
+  isLoaded: 1
+  isActive: 1
+  isSubScene: 0
