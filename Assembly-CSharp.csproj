@@ -37,6 +37,7 @@
   </PropertyGroup>
   <ItemGroup>
      <Compile Include="Assets\ModernSupermarket\Scripts\FreeCamera.cs" />
+     <Compile Include="Assets\ModernSupermarket\Scripts\PickupItem.cs" />
      <Compile Include="Assets\ModernSupermarket\Scripts\SimpleFPSController.cs" />
      <None Include="Assets\ModernSupermarket\Shaders\Label.shader" />
      <None Include="Assets\ModernSupermarket\Shaders\Liquid.shader" />
