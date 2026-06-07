@@ -37,10 +37,12 @@
   </PropertyGroup>
   <ItemGroup>
      <Compile Include="Assets\ModernSupermarket\Scripts\FreeCamera.cs" />
+     <Compile Include="Assets\ModernSupermarket\Scripts\SimpleFPSController.cs" />
      <None Include="Assets\ModernSupermarket\Shaders\Label.shader" />
      <None Include="Assets\ModernSupermarket\Shaders\Liquid.shader" />
      <None Include="Assets\ModernSupermarket\Shaders\MaskedColor.shader" />
      <None Include="Assets\ModernSupermarket\Shaders\Tesselation.shader" />
+     <None Include="Assets\Cute Supermarket Lite\license.txt" />
      <None Include="Assets\ModernSupermarket\Shaders\Glass.shader" />
     <Reference Include="UnityEngine">
         <HintPath>/Applications/Unity/Hub/Editor/2019.4.14f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.dll</HintPath>
