@@ -35,25 +35,26 @@ public class SimpleFPSController : MonoBehaviour
         float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity;
 
         // Flechas izquierda/derecha para girar
+        float keyboardLookSpeed = 0.7f;
+
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            mouseX = -mouseSensitivity;
+            mouseX = -keyboardLookSpeed;
         }
 
         if (Input.GetKey(KeyCode.RightArrow))
         {
-            mouseX = mouseSensitivity;
+            mouseX = keyboardLookSpeed;
         }
 
-        // Flechas arriba/abajo para mirar
         if (Input.GetKey(KeyCode.UpArrow))
         {
-            mouseY = -mouseSensitivity;
+            mouseY = -keyboardLookSpeed;
         }
 
         if (Input.GetKey(KeyCode.DownArrow))
         {
-            mouseY = mouseSensitivity;
+            mouseY = keyboardLookSpeed;
         }
 
         transform.Rotate(Vector3.up * mouseX);
