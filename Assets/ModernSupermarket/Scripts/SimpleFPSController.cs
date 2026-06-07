@@ -29,8 +29,32 @@ public class SimpleFPSController : MonoBehaviour
 
     void Update()
     {
+        // float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
+        // float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity;
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
         float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity;
+
+        // Flechas izquierda/derecha para girar
+        if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            mouseX = -mouseSensitivity;
+        }
+
+        if (Input.GetKey(KeyCode.RightArrow))
+        {
+            mouseX = mouseSensitivity;
+        }
+
+        // Flechas arriba/abajo para mirar
+        if (Input.GetKey(KeyCode.UpArrow))
+        {
+            mouseY = -mouseSensitivity;
+        }
+
+        if (Input.GetKey(KeyCode.DownArrow))
+        {
+            mouseY = mouseSensitivity;
+        }
 
         transform.Rotate(Vector3.up * mouseX);
 
