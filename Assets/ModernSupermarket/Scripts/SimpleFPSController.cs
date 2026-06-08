@@ -159,12 +159,14 @@ public class SimpleFPSController : MonoBehaviour
         // Mirar arriba y abajo
         if (Input.GetKey(KeyCode.UpArrow))
         {
-            verticalRotation -= arrowLookSpeed;
+            // verticalRotation -= arrowLookSpeed;
+            transform.position = transform.position + (Vector3.up * movementSpeed * Time.deltaTime);
         }
 
         if (Input.GetKey(KeyCode.DownArrow))
         {
-            verticalRotation += arrowLookSpeed;
+            // verticalRotation += arrowLookSpeed;
+            transform.position = transform.position + (-Vector3.up * movementSpeed * Time.deltaTime);
         }
 
         // Limitar cuánto puede mirar arriba y abajo
