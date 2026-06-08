@@ -86,3 +86,13 @@ public class SimpleFPSController : MonoBehaviour
         controller.Move(Vector3.up * verticalVelocity * Time.deltaTime);
     }
 }
+
+
+// Vector3 move = transform.right * x + transform.forward * z;
+
+// if (move.magnitude > 1f)
+// {
+//     move.Normalize();
+// }
+
+// controller.Move(move * walkSpeed * Time.deltaTime);
