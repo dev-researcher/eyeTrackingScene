@@ -2121,7 +2121,7 @@ GameObject:
   - component: {fileID: 23709471}
   m_Layer: 0
   m_Name: Pastas / Condiments
-  m_TagString: Untagged
+  m_TagString: Product
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4
@@ -5666,7 +5666,7 @@ GameObject:
   - component: {fileID: 86205349}
   m_Layer: 0
   m_Name: Frozen
-  m_TagString: Untagged
+  m_TagString: Product
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4
@@ -20026,7 +20026,7 @@ GameObject:
   - component: {fileID: 332397229}
   m_Layer: 0
   m_Name: Books
-  m_TagString: Untagged
+  m_TagString: Product
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4
@@ -45915,7 +45915,7 @@ GameObject:
   - component: {fileID: 762445609}
   m_Layer: 0
   m_Name: Cleaning / Housekeeping
-  m_TagString: Untagged
+  m_TagString: Product
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4
@@ -50047,7 +50047,7 @@ GameObject:
   - component: {fileID: 818698703}
   m_Layer: 0
   m_Name: Dairy / Cheese
-  m_TagString: Untagged
+  m_TagString: Product
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4
@@ -53701,7 +53701,7 @@ GameObject:
   - component: {fileID: 865944313}
   m_Layer: 0
   m_Name: Fruits / Vegetables
-  m_TagString: Untagged
+  m_TagString: Product
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4
@@ -63102,7 +63102,7 @@ GameObject:
   - component: {fileID: 1010781905}
   m_Layer: 0
   m_Name: Meat / Seafood
-  m_TagString: Untagged
+  m_TagString: Product
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4
@@ -63558,7 +63558,7 @@ GameObject:
   - component: {fileID: 1020561114}
   m_Layer: 0
   m_Name: Breakfast / Sweets
-  m_TagString: Untagged
+  m_TagString: Product
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4
@@ -81667,7 +81667,7 @@ GameObject:
   - component: {fileID: 1321038151}
   m_Layer: 0
   m_Name: Pets / Animals
-  m_TagString: Untagged
+  m_TagString: Product
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4
@@ -96657,7 +96657,7 @@ GameObject:
   - component: {fileID: 1567686426}
   m_Layer: 0
   m_Name: Liquors / Soft Drinks
-  m_TagString: Untagged
+  m_TagString: Product
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4
@@ -99154,7 +99154,7 @@ GameObject:
   - component: {fileID: 1601355140}
   m_Layer: 0
   m_Name: Tea / Candies
-  m_TagString: Untagged
+  m_TagString: Product
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4
@@ -109707,7 +109707,7 @@ GameObject:
   - component: {fileID: 1760161114}
   m_Layer: 0
   m_Name: Products
-  m_TagString: Untagged
+  m_TagString: Product
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4
@@ -118301,7 +118301,7 @@ GameObject:
   - component: {fileID: 1903949741}
   m_Layer: 0
   m_Name: Home / Decoration
-  m_TagString: Untagged
+  m_TagString: Product
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4
