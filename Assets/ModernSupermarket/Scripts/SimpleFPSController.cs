@@ -171,27 +171,27 @@ public class SimpleFPSController : MonoBehaviour
         // }
 
         //Flechas izquierda/derecha para girar
-        float keyboardLookSpeed = 0.7f;
+        // float keyboardLookSpeed = 0.7f;
 
-        if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            mouseX = -keyboardLookSpeed;
-        }
+        // if (Input.GetKey(KeyCode.LeftArrow))
+        // {
+        //     mouseX = -keyboardLookSpeed;
+        // }
 
-        if (Input.GetKey(KeyCode.RightArrow))
-        {
-            mouseX = keyboardLookSpeed;
-        }
+        // if (Input.GetKey(KeyCode.RightArrow))
+        // {
+        //     mouseX = keyboardLookSpeed;
+        // }
 
-        if (Input.GetKey(KeyCode.UpArrow))
-        {
-            mouseY = -keyboardLookSpeed;
-        }
+        // if (Input.GetKey(KeyCode.UpArrow))
+        // {
+        //     mouseY = -keyboardLookSpeed;
+        // }
 
-        if (Input.GetKey(KeyCode.DownArrow))
-        {
-            mouseY = keyboardLookSpeed;
-        }
+        // if (Input.GetKey(KeyCode.DownArrow))
+        // {
+        //     mouseY = keyboardLookSpeed;
+        // }
 
         if (looking)
         {
