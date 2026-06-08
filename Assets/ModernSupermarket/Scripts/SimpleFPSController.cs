@@ -213,4 +213,39 @@ public class FreeCamera : MonoBehaviour
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
     }
+
+    // ---
+    void TryPickup()
+    {
+        Ray ray = new Ray(transform.position, transform.forward);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, pickupDistance))
+        {
+            if (hit.collider.CompareTag("Product"))
+            {
+                heldItem = hit.collider.gameObject;
+
+                Rigidbody rb = heldItem.GetComponent<Rigidbody>();
+                if (rb != null)
+                    rb.isKinematic = true;
+
+                heldItem.transform.SetParent(holdPoint);
+                heldItem.transform.localPosition = Vector3.zero;
+                heldItem.transform.localRotation = Quaternion.identity;
+            }
+        }
+    }
+
+    void DropItem()
+    {
+        heldItem.transform.SetParent(null);
+
+        Rigidbody rb = heldItem.GetComponent<Rigidbody>();
+        if (rb != null)
+            rb.isKinematic = false;
+
+        heldItem = null;
+    }
+
 }
