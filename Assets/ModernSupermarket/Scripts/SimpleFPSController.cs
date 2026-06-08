@@ -62,10 +62,18 @@ public class SimpleFPSController : MonoBehaviour
         cameraPitch -= mouseY;
         cameraPitch = Mathf.Clamp(cameraPitch, -80f, 80f);
         cameraTransform.localRotation = Quaternion.Euler(cameraPitch, 0f, 0f);
+        // h
+        // float x = Input.GetAxis("Horizontal");
+        // float z = Input.GetAxis("Vertical");
+        // h
 
-        float x = Input.GetAxis("Horizontal");
-        float z = Input.GetAxis("Vertical");
+        float x = 0f;
+        float z = 0f;
 
+        if (Input.GetKey(KeyCode.A)) x = -1f;
+        if (Input.GetKey(KeyCode.D)) x = 1f;
+        if (Input.GetKey(KeyCode.W)) z = 1f;
+        if (Input.GetKey(KeyCode.S)) z = -1f;
         Vector3 move = transform.right * x + transform.forward * z;
         controller.Move(move * walkSpeed * Time.deltaTime);
 
