@@ -112,8 +112,6 @@ public class SimpleFPSController : MonoBehaviour
     public float fastZoomSensitivity = 50f;
     private bool looking = false;
 
-
-
     public Transform holdPoint;
     public float pickupDistance = 3f;
     private GameObject heldItem;
@@ -153,6 +151,7 @@ public class SimpleFPSController : MonoBehaviour
         // {
         //     transform.position = transform.position + (-transform.up * movementSpeed * Time.deltaTime);
         // }
+
         if (Input.GetKeyDown(KeyCode.E))
         {
             if (heldItem == null)
@@ -170,6 +169,29 @@ public class SimpleFPSController : MonoBehaviour
         // {
         //     transform.position = transform.position + (-Vector3.up * movementSpeed * Time.deltaTime);
         // }
+
+        //Flechas izquierda/derecha para girar
+        float keyboardLookSpeed = 0.7f;
+
+        if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            mouseX = -keyboardLookSpeed;
+        }
+
+        if (Input.GetKey(KeyCode.RightArrow))
+        {
+            mouseX = keyboardLookSpeed;
+        }
+
+        if (Input.GetKey(KeyCode.UpArrow))
+        {
+            mouseY = -keyboardLookSpeed;
+        }
+
+        if (Input.GetKey(KeyCode.DownArrow))
+        {
+            mouseY = keyboardLookSpeed;
+        }
 
         if (looking)
         {
