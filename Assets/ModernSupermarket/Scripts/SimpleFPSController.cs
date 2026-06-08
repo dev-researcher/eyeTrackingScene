@@ -143,10 +143,10 @@ public class SimpleFPSController : MonoBehaviour
             transform.position = transform.position + (-transform.forward * movementSpeed * Time.deltaTime);
         }
 
-        if (Input.GetKey(KeyCode.Q))
-        {
-            transform.position = transform.position + (transform.up * movementSpeed * Time.deltaTime);
-        }
+        // if (Input.GetKey(KeyCode.Q))
+        // {
+        //     transform.position = transform.position + (transform.up * movementSpeed * Time.deltaTime);
+        // }
 
         // if (Input.GetKey(KeyCode.E))
         // {
@@ -160,15 +160,15 @@ public class SimpleFPSController : MonoBehaviour
                 DropItem();
         }
 
-        if (Input.GetKey(KeyCode.R) || Input.GetKey(KeyCode.PageUp))
-        {
-            transform.position = transform.position + (Vector3.up * movementSpeed * Time.deltaTime);
-        }
+        // if (Input.GetKey(KeyCode.R) || Input.GetKey(KeyCode.PageUp))
+        // {
+        //     transform.position = transform.position + (Vector3.up * movementSpeed * Time.deltaTime);
+        // }
 
-        if (Input.GetKey(KeyCode.F) || Input.GetKey(KeyCode.PageDown))
-        {
-            transform.position = transform.position + (-Vector3.up * movementSpeed * Time.deltaTime);
-        }
+        // if (Input.GetKey(KeyCode.F) || Input.GetKey(KeyCode.PageDown))
+        // {
+        //     transform.position = transform.position + (-Vector3.up * movementSpeed * Time.deltaTime);
+        // }
 
         if (looking)
         {
