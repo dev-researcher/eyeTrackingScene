@@ -1,1 +1,1 @@
-{"m_DefineSymbols":[],"m_AllowUnsafeCode":false}
+{"m_DefineSymbols":{"m_Value":{"Android":"OVR_DISABLE_HAND_PINCH_BUTTON_MAPPING","Standalone":"OVR_DISABLE_HAND_PINCH_BUTTON_MAPPING"},"m_Initialized":true},"m_AllowUnsafeCode":{"m_Value":false,"m_Initialized":false},"m_ScriptDebugInfoEnabled":{"m_Value":false,"m_Initialized":true}}
