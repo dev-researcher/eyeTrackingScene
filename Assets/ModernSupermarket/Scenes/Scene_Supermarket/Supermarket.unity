@@ -35362,7 +35362,7 @@ GameObject:
   - component: {fileID: 563678586}
   m_Layer: 0
   m_Name: Wine
-  m_TagString: Untagged
+  m_TagString: Product
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4
@@ -49989,7 +49989,7 @@ GameObject:
   - component: {fileID: 816877659}
   m_Layer: 0
   m_Name: Bathroom / Toilets
-  m_TagString: Untagged
+  m_TagString: Product
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4
