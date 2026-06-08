@@ -111,6 +111,7 @@ public class SimpleFPSController : MonoBehaviour
     public float zoomSensitivity = 10f;
     public float fastZoomSensitivity = 50f;
     private bool looking = false;
+    private float verticalRotation = 0f;
 
     public Transform holdPoint;
     public float pickupDistance = 3f;
@@ -144,25 +145,34 @@ public class SimpleFPSController : MonoBehaviour
 
         float arrowLookSpeed = freeLookSensitivity * 30f * Time.deltaTime;
 
+        // Girar izquierda y derecha
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            transform.localEulerAngles += new Vector3(0f, -arrowLookSpeed, 0f);
+            transform.Rotate(0f, -arrowLookSpeed, 0f);
         }
 
         if (Input.GetKey(KeyCode.RightArrow))
         {
-            transform.localEulerAngles += new Vector3(0f, arrowLookSpeed, 0f);
+            transform.Rotate(0f, arrowLookSpeed, 0f);
         }
 
+        // Mirar arriba y abajo
         if (Input.GetKey(KeyCode.UpArrow))
         {
-            transform.localEulerAngles += new Vector3(-arrowLookSpeed, 0f, 0f);
+            verticalRotation -= arrowLookSpeed;
         }
 
         if (Input.GetKey(KeyCode.DownArrow))
         {
-            transform.localEulerAngles += new Vector3(arrowLookSpeed, 0f, 0f);
+            verticalRotation += arrowLookSpeed;
         }
+
+        // Limitar cuánto puede mirar arriba y abajo
+        verticalRotation = Mathf.Clamp(verticalRotation, -80f, 80f);
+
+        // Aplicar la rotación sin inclinar la cámara
+        Vector3 angles = transform.localEulerAngles;
+        transform.localEulerAngles = new Vector3(verticalRotation, angles.y, 0f);
 
         if (Input.GetKeyDown(KeyCode.E))
         {
