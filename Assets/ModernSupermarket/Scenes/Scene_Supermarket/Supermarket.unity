@@ -134836,7 +134836,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 508010922, guid: 6c7e9da7f50abfe4e89d4d65146a6bfa, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 508010923, guid: 6c7e9da7f50abfe4e89d4d65146a6bfa, type: 3}
       propertyPath: FilterDownsample
