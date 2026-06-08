@@ -11826,7 +11826,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 197634276}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6787a28fb706d4bb2971055834b5af74, type: 3}
   m_Name: 
@@ -80797,6 +80797,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 653522800}
     m_Modifications:
+    - target: {fileID: 1829040070111409337, guid: aa2a0d13525651b429ef1e12dc3e15f4,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1880032562295647009, guid: aa2a0d13525651b429ef1e12dc3e15f4,
         type: 3}
       propertyPath: m_StaticEditorFlags
@@ -80806,6 +80811,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_StaticEditorFlags
       value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 2107957896119862485, guid: aa2a0d13525651b429ef1e12dc3e15f4,
+        type: 3}
+      propertyPath: m_TagString
+      value: Product
       objectReference: {fileID: 0}
     - target: {fileID: 3224577315362204941, guid: aa2a0d13525651b429ef1e12dc3e15f4,
         type: 3}

@@ -103,7 +103,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-public class FreeCamera : MonoBehaviour
+public class SimpleFPSController : MonoBehaviour
 {
     public float movementSpeed = 10f;
     public float fastMovementSpeed = 100f;
