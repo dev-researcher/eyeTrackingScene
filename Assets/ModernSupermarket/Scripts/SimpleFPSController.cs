@@ -74,13 +74,23 @@ public class SimpleFPSController : MonoBehaviour
         if (Input.GetKey(KeyCode.D)) x = 1f;
         if (Input.GetKey(KeyCode.W)) z = 1f;
         if (Input.GetKey(KeyCode.S)) z = -1f;
-        Vector3 move = transform.right * x + transform.forward * z;
-        controller.Move(move * walkSpeed * Time.deltaTime);
 
-        if (controller.isGrounded && verticalVelocity < 0)
+        // Vector3 move = transform.right * x + transform.forward * z;
+        // controller.Move(move * walkSpeed * Time.deltaTime);
+
+        // if (controller.isGrounded && verticalVelocity < 0)
+        // {
+        //     verticalVelocity = -2f;
+        // }
+
+        Vector3 move = transform.right * x + transform.forward * z;
+
+        if (move.magnitude > 1f)
         {
-            verticalVelocity = -2f;
+            move.Normalize();
         }
+
+        controller.Move(move * walkSpeed * Time.deltaTime);
 
         verticalVelocity += gravity * Time.deltaTime;
         controller.Move(Vector3.up * verticalVelocity * Time.deltaTime);
@@ -88,11 +98,3 @@ public class SimpleFPSController : MonoBehaviour
 }
 
 
-// Vector3 move = transform.right * x + transform.forward * z;
-
-// if (move.magnitude > 1f)
-// {
-//     move.Normalize();
-// }
-
-// controller.Move(move * walkSpeed * Time.deltaTime);
