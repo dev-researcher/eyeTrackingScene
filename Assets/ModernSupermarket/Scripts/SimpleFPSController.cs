@@ -95,11 +95,12 @@ public class SimpleFPSController : MonoBehaviour
         float axis = Input.GetAxis("Mouse ScrollWheel");
         if (axis > 0)
         {
-            GetComponent<Camera>().fieldOfView--;
+            // GetComponent<Camera>().fieldOfView--;
+            GetComponentInChildren<Camera>().fieldOfView--;
         }
         else if (axis < 0)
         {
-            GetComponent<Camera>().fieldOfView++;
+            GetComponentInChildren<Camera>().fieldOfView++;
         }
 
         if (Input.GetKeyDown(KeyCode.Mouse1))
