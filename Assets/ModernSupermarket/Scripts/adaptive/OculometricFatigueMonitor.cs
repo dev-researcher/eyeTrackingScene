@@ -315,23 +315,30 @@ public class OculometricFatigueMonitor : MonoBehaviour
         MeanFixationDurationMs = fixationCount > 0 ? fixationSumMs / fixationCount : 0f;
         PupilDiameterCvPercent = ComputeCoefficientOfVariationPercent(pupilValues);
 
+        // FIX CS0206: usar variables locales, no propiedades con out
+        bool highBlinkRate;
         UpdatePersistentFlag(
             BlinkRatePerMin >= fatigueBlinkRatePerMin,
             ref highBlinkWindows,
             ref recoveredBlinkWindows,
-            out HighBlinkRate);
+            out highBlinkRate);
+        HighBlinkRate = highBlinkRate;
 
+        bool longFixation;
         UpdatePersistentFlag(
             MeanFixationDurationMs >= fatigueFixationDurationMs,
             ref longFixationWindows,
             ref recoveredFixationWindows,
-            out LongFixation);
+            out longFixation);
+        LongFixation = longFixation;
 
+        bool pupilInstability;
         UpdatePersistentFlag(
             pupilValues.Count >= 5 && PupilDiameterCvPercent >= fatiguePupilCvPercent,
             ref pupilInstabilityWindows,
             ref recoveredPupilWindows,
-            out PupilInstability);
+            out pupilInstability);
+        PupilInstability = pupilInstability;
 
         VisualFatigueIndex = ComputeVisualFatigueIndex();
     }
