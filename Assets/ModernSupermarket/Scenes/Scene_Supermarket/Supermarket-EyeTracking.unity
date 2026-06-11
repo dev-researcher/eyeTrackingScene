@@ -110894,7 +110894,7 @@ GameObject:
   m_IsActive: 1
 --- !u!114 &1430075191
 MonoBehaviour:
-  m_ObjectHideFlags: 19
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -143928,7 +143928,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33fffc1399fb48c498a32582fd9823c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VarjoOpenXRGazeLogger
-  participantId: P007777
+  participantId: P0088888
   condition: supermarket
   xrCamera: {fileID: 6905811203163607127}
   playerTransform: {fileID: 197634278}

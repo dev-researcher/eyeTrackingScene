@@ -57,7 +57,7 @@ public class VarjoOpenXRGazeLogger : MonoBehaviour
 
     void Update()
     {
-        purchasePressedThisFrame = false;
+        // purchasePressedThisFrame = false;
 
         timer += Time.deltaTime;
 
