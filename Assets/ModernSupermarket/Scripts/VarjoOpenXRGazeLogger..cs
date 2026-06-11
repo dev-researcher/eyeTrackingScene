@@ -23,6 +23,8 @@ public class VarjoOpenXRGazeLogger : MonoBehaviour
     private float timer = 0f;
     private int purchaseCount = 0;
     private bool purchasePressedThisFrame = false;
+    private bool previousLeftBButtonState = false;
+    private bool previousRightBButtonState = false;
 
     void Start()
     {
@@ -57,11 +59,17 @@ public class VarjoOpenXRGazeLogger : MonoBehaviour
     {
         purchasePressedThisFrame = false;
 
-        if (Input.GetKeyDown(KeyCode.B))
+        // if (Input.GetKeyDown(KeyCode.B))
+        // {
+        //     purchaseCount++;
+        //     purchasePressedThisFrame = true;
+        //     Debug.Log("Compra simulada #" + purchaseCount);
+        // }
+        if (Input.GetKeyDown(KeyCode.B) || AnyControllerBButtonPressed())
         {
             purchaseCount++;
             purchasePressedThisFrame = true;
-            Debug.Log("Compra simulada #" + purchaseCount);
+            Debug.Log("Purchase intent registered #" + purchaseCount);
         }
 
         timer += Time.deltaTime;
@@ -73,13 +81,41 @@ public class VarjoOpenXRGazeLogger : MonoBehaviour
         }
     }
 
+    bool AnyControllerBButtonPressed()
+    {
+        bool leftPressed = ControllerBButtonPressed(XRNode.LeftHand, ref previousLeftBButtonState);
+        bool rightPressed = ControllerBButtonPressed(XRNode.RightHand, ref previousRightBButtonState);
+
+        return leftPressed || rightPressed;
+    }
+
+    bool ControllerBButtonPressed(XRNode handNode, ref bool previousButtonState)
+    {
+        InputDevice controller = InputDevices.GetDeviceAtXRNode(handNode);
+
+        if (!controller.isValid)
+        {
+            return false;
+        }
+
+        bool currentButtonState = false;
+
+        if (controller.TryGetFeatureValue(CommonUsages.secondaryButton, out currentButtonState))
+        {
+            bool pressedNow = currentButtonState && !previousButtonState;
+            previousButtonState = currentButtonState;
+            return pressedNow;
+        }
+
+        return false;
+    }
     void SaveSample()
     {
         bool gazeValid = false;
         bool fixationValid = false;
 
         Vector3 gazeOrigin = xrCamera != null ? xrCamera.position : Vector3.zero;
-        Vector3 gazeDirection = xrCamera != null ? xrCamera.forward : Vector3.forward; 
+        Vector3 gazeDirection = xrCamera != null ? xrCamera.forward : Vector3.forward;
         Vector3 fixationPoint = Vector3.zero;
 
         List<InputDevice> devices = new List<InputDevice>();

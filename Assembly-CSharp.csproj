@@ -83,7 +83,6 @@
     <None Include="Assets\ModernSupermarket\Shaders\MaskedColor.shader" />
     <None Include="Assets\AmplifyShaderEditor\Examples\Credits.txt" />
     <None Include="Assets\ModernSupermarket\Shaders\Tesselation.shader" />
-    <None Include="Assets\Cute Supermarket Lite\license.txt" />
     <None Include="Assets\AmplifyShaderEditor\ChangeLog.txt" />
     <None Include="Assets\AmplifyShaderEditor\Readme.txt" />
     <None Include="Assets\ModernSupermarket\Shaders\Glass.shader" />
