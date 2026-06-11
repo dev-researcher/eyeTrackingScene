@@ -74,20 +74,13 @@ public class VarjoOpenXRGazeLogger : MonoBehaviour
         //     Debug.Log("Compra simulada #" + purchaseCount);
         // }
        
-       try
-       {
             if (Input.GetKeyDown(KeyCode.B) || AnyControllerBButtonPressed())
         {
             purchaseCount++;
             purchasePressedThisFrame = true;
             Debug.Log("Purchase intent registered #" + purchaseCount);
         }
-       }
-       catch (exception.e)
-       {
-           debug.Log("error en compra");
-       }
-
+      
     }
 
     bool AnyControllerBButtonPressed()
@@ -122,7 +115,7 @@ public class VarjoOpenXRGazeLogger : MonoBehaviour
     {
         if (writer == null)
         {
-             debug.Log("writer is null");
+             Debug.Log("writer is null");
              return;
         }
 
