@@ -4,7 +4,17 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/ModernSupermarket/Scenes/Scene_Supermarket/Supermarket-EyeTracking.unity
+    guid: e971d89a35eedb2489c558244f37c546
   m_configObjects:
+    Varjo.XR.Settings: {fileID: 11400000, guid: aaa29b65be5d8d9498b37838d6858f2c,
+      type: 2}
+    com.unity.xr.arfoundation.simulation_settings: {fileID: 11400000, guid: 236ea6800a18d3f429aa753d1069ac41,
+      type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 3a4ee4c20e83caa48a213856360fcf10,
       type: 2}
+    com.unity.xr.openxr.settings4: {fileID: 11400000, guid: ca99bf845d5ae974792a260f3075c21a,
+      type: 2}
+  m_UseUCBPForAssetBundles: 0
