@@ -176,9 +176,9 @@ public class VarjoOpenXRGazeLogger : MonoBehaviour
             F(fixationPoint.z) + "," +
             F(playerPos.x) + "," +
             F(playerPos.y) + "," +
-            F(playerPos.z) + "," +
+            F(playerPos.z) + "," 
             // purchaseCount + "," +
-            purchasePressedThisFrame
+            // purchasePressedThisFrame
         );
 
         writer.Flush();
