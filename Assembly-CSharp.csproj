@@ -73,6 +73,8 @@
     <Compile Include="Assets\Samples\Varjo XR Plugin\3.7.3\HDRP Samples\Shared\Scripts\DestroyByPosition.cs" />
     <Compile Include="Assets\ModernSupermarket\Scripts\SimpleFPSController.cs" />
     <Compile Include="Assets\Samples\Varjo XR Plugin\3.7.3\HDRP Samples\Shared\Scripts\ConstantRotate.cs" />
+    <Compile Include="Assets\ModernSupermarket\Scripts\adaptive\AdaptiveFatigueController.cs" />
+    <Compile Include="Assets\ModernSupermarket\Scripts\adaptive\OculometricFatigueMonitor.cs" />
     <Compile Include="Assets\Samples\Varjo XR Plugin\3.7.3\HDRP Samples\Shared\Scripts\Interactable.cs" />
     <Compile Include="Assets\Samples\Varjo XR Plugin\3.7.3\HDRP Samples\Shared\Scripts\QuitDemo.cs" />
     <Compile Include="Assets\Samples\Varjo XR Plugin\3.7.3\HDRP Samples\MixedReality\Scripts\MixedRealityExample.cs" />

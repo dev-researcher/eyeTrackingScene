@@ -143928,7 +143928,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33fffc1399fb48c498a32582fd9823c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VarjoOpenXRGazeLogger
-  participantId: P0088888
+  participantId: P00lubos
   condition: supermarket
   xrCamera: {fileID: 6905811203163607127}
   playerTransform: {fileID: 197634278}
@@ -165885,6 +165885,37 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2107056272}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2107795521
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2107795522}
+  m_Layer: 0
+  m_Name: AdaptiveFatigueSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2107795522
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2107795521}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -15.88995, y: -0, z: 8.4}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2108564834
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -172026,6 +172057,7 @@ PrefabInstance:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 2107795522}
   - {fileID: 866469670}
   - {fileID: 177311046}
   - {fileID: 581876911}
