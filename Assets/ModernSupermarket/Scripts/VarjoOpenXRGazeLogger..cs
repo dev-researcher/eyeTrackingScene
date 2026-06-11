@@ -21,7 +21,7 @@ public class VarjoOpenXRGazeLogger : MonoBehaviour
     private StreamWriter writer;
     private string filePath;
     private float timer = 0f;
-    private int purchaseCount = 0;
+    // private int purchaseCount = 0;
     private bool purchasePressedThisFrame = false;
     private bool previousLeftBButtonState = false;
     private bool previousRightBButtonState = false;
@@ -48,8 +48,8 @@ public class VarjoOpenXRGazeLogger : MonoBehaviour
             "gazeOriginX,gazeOriginY,gazeOriginZ," +
             "gazeDirX,gazeDirY,gazeDirZ," +
             "fixationX,fixationY,fixationZ," +
-            "playerX,playerY,playerZ," +
-            "purchaseCount,purchasePressed"
+            "playerX,playerY,playerZ," 
+            // "purchaseCount,purchasePressed"
         );
 
         Debug.Log("Guardando datos eye tracking en: " + filePath);
@@ -74,50 +74,50 @@ public class VarjoOpenXRGazeLogger : MonoBehaviour
         //     Debug.Log("Compra simulada #" + purchaseCount);
         // }
        
-            if (Input.GetKeyDown(KeyCode.B) || AnyControllerBButtonPressed())
-        {
-            purchaseCount++;
-            purchasePressedThisFrame = true;
-            Debug.Log("Purchase intent registered #" + purchaseCount);
-        }
+        //     if (Input.GetKeyDown(KeyCode.B) || AnyControllerBButtonPressed())
+        // {
+        //     purchaseCount++;
+        //     purchasePressedThisFrame = true;
+        //     Debug.Log("Purchase intent registered #" + purchaseCount);
+        // }
       
     }
 
-    bool AnyControllerBButtonPressed()
-    {
-        bool leftPressed = ControllerBButtonPressed(XRNode.LeftHand, ref previousLeftBButtonState);
-        bool rightPressed = ControllerBButtonPressed(XRNode.RightHand, ref previousRightBButtonState);
+    // bool AnyControllerBButtonPressed()
+    // {
+    //     bool leftPressed = ControllerBButtonPressed(XRNode.LeftHand, ref previousLeftBButtonState);
+    //     bool rightPressed = ControllerBButtonPressed(XRNode.RightHand, ref previousRightBButtonState);
 
-        return leftPressed || rightPressed;
-    }
+    //     return leftPressed || rightPressed;
+    // }
 
-    bool ControllerBButtonPressed(XRNode handNode, ref bool previousButtonState)
-    {
-        InputDevice controller = InputDevices.GetDeviceAtXRNode(handNode);
+    // bool ControllerBButtonPressed(XRNode handNode, ref bool previousButtonState)
+    // {
+    //     InputDevice controller = InputDevices.GetDeviceAtXRNode(handNode);
 
-        if (!controller.isValid)
-        {
-            return false;
-        }
+    //     if (!controller.isValid)
+    //     {
+    //         return false;
+    //     }
 
-        bool currentButtonState = false;
+    //     bool currentButtonState = false;
 
-        if (controller.TryGetFeatureValue(CommonUsages.secondaryButton, out currentButtonState))
-        {
-            bool pressedNow = currentButtonState && !previousButtonState;
-            previousButtonState = currentButtonState;
-            return pressedNow;
-        }
+    //     if (controller.TryGetFeatureValue(CommonUsages.secondaryButton, out currentButtonState))
+    //     {
+    //         bool pressedNow = currentButtonState && !previousButtonState;
+    //         previousButtonState = currentButtonState;
+    //         return pressedNow;
+    //     }
 
-        return false;
-    }
+    //     return false;
+    // }
     void SaveSample()
     {
-        if (writer == null)
-        {
-             Debug.Log("writer is null");
-             return;
-        }
+        // if (writer == null)
+        // {
+        //      Debug.Log("writer is null");
+        //      return;
+        // }
 
         bool gazeValid = false;
         bool fixationValid = false;
@@ -177,7 +177,7 @@ public class VarjoOpenXRGazeLogger : MonoBehaviour
             F(playerPos.x) + "," +
             F(playerPos.y) + "," +
             F(playerPos.z) + "," +
-            purchaseCount + "," +
+            // purchaseCount + "," +
             purchasePressedThisFrame
         );
 

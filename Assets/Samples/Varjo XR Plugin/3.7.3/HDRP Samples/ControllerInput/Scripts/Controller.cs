@@ -184,14 +184,14 @@ namespace VarjoExample
                 menubuttonGameobject.GetComponent<MeshRenderer>().material = buttonPressedMaterial;
             }
 
-             if (secondaryButton)
-            {
-                Debug.Log("[" + XRNode.ToString() + "] Purchase intent registered");
-            }
-            else
-            {
-                menubuttonGameobject.GetComponent<MeshRenderer>().material = buttonPressedMaterial;
-            }
+            //  if (secondaryButton)
+            // {
+            //     Debug.Log("[" + XRNode.ToString() + "] Purchase intent registered");
+            // }
+            // else
+            // {
+            //     menubuttonGameobject.GetComponent<MeshRenderer>().material = buttonPressedMaterial;
+            // }
         }
     }
 }
