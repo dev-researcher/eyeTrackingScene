@@ -22,9 +22,9 @@ public class VarjoOpenXRGazeLogger : MonoBehaviour
     private string filePath;
     private float timer = 0f;
     // private int purchaseCount = 0;
-    private bool purchasePressedThisFrame = false;
-    private bool previousLeftBButtonState = false;
-    private bool previousRightBButtonState = false;
+    // private bool purchasePressedThisFrame = false;
+    // private bool previousLeftBButtonState = false;
+    // private bool previousRightBButtonState = false;
 
     void Start()
     {
