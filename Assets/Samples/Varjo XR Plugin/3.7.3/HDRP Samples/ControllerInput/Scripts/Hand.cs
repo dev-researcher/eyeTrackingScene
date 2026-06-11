@@ -40,21 +40,21 @@ namespace VarjoExample
             }
         }
 
-        private void OnTriggerEnter(Collider other)
-        {
-            if (other.gameObject.CompareTag("Pickable") || other.gameObject.CompareTag("Fracture"))
-            {
-                contactedInteractables.Add(other.gameObject.GetComponent<Interactable>());
-            }
-        }
+        // private void OnTriggerEnter(Collider other)
+        // {
+        //     if (other.gameObject.CompareTag("Pickable") || other.gameObject.CompareTag("Fracture"))
+        //     {
+        //         contactedInteractables.Add(other.gameObject.GetComponent<Interactable>());
+        //     }
+        // }
 
-        private void OnTriggerExit(Collider other)
-        {
-            if (other.gameObject.CompareTag("Pickable") || other.gameObject.CompareTag("Fracture"))
-            {
-                contactedInteractables.Remove(other.gameObject.GetComponent<Interactable>());
-            }
-        }
+        // private void OnTriggerExit(Collider other)
+        // {
+        //     if (other.gameObject.CompareTag("Pickable") || other.gameObject.CompareTag("Fracture"))
+        //     {
+        //         contactedInteractables.Remove(other.gameObject.GetComponent<Interactable>());
+        //     }
+        // }
 
         public void Pick()
         {
