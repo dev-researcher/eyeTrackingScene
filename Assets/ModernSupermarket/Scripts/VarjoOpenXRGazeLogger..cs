@@ -59,19 +59,6 @@ public class VarjoOpenXRGazeLogger : MonoBehaviour
     {
         purchasePressedThisFrame = false;
 
-        // if (Input.GetKeyDown(KeyCode.B))
-        // {
-        //     purchaseCount++;
-        //     purchasePressedThisFrame = true;
-        //     Debug.Log("Compra simulada #" + purchaseCount);
-        // }
-        if (Input.GetKeyDown(KeyCode.B) || AnyControllerBButtonPressed())
-        {
-            purchaseCount++;
-            purchasePressedThisFrame = true;
-            Debug.Log("Purchase intent registered #" + purchaseCount);
-        }
-
         timer += Time.deltaTime;
 
         if (timer >= sampleInterval)
@@ -79,6 +66,28 @@ public class VarjoOpenXRGazeLogger : MonoBehaviour
             timer = 0f;
             SaveSample();
         }
+
+        // if (Input.GetKeyDown(KeyCode.B))
+        // {
+        //     purchaseCount++;
+        //     purchasePressedThisFrame = true;
+        //     Debug.Log("Compra simulada #" + purchaseCount);
+        // }
+       
+       try
+       {
+            if (Input.GetKeyDown(KeyCode.B) || AnyControllerBButtonPressed())
+        {
+            purchaseCount++;
+            purchasePressedThisFrame = true;
+            Debug.Log("Purchase intent registered #" + purchaseCount);
+        }
+       }
+       catch (exception.e)
+       {
+           debug.Log("error en compra");
+       }
+
     }
 
     bool AnyControllerBButtonPressed()
@@ -111,6 +120,12 @@ public class VarjoOpenXRGazeLogger : MonoBehaviour
     }
     void SaveSample()
     {
+        if (writer == null)
+        {
+             debug.Log("writer is null");
+             return;
+        }
+
         bool gazeValid = false;
         bool fixationValid = false;
 
