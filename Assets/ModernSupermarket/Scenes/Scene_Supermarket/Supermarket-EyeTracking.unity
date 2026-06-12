@@ -143928,7 +143928,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33fffc1399fb48c498a32582fd9823c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VarjoOpenXRGazeLogger
-  participantId: P00Elena
+  participantId: P00Ariana
   condition: supermarket
   xrCamera: {fileID: 6905811203163607127}
   playerTransform: {fileID: 197634278}
@@ -165932,8 +165932,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AdaptiveFatigueController
   adaptiveEnabled: 1
   logAdaptations: 1
-  fatigueMonitor: {fileID: 0}
-  sceneLights: []
+  logSetupWarnings: 1
+  logVisualChanges: 1
+  fatigueMonitor: {fileID: 2107795524}
+  sceneLights:
+  - {fileID: 1334954348}
+  - {fileID: 1998567968}
+  - {fileID: 53920041}
+  - {fileID: 1094941447}
+  - {fileID: 31788998}
+  - {fileID: 1606042596}
+  - {fileID: 1728815725}
   neonLights: []
   roofEmissiveMaterials: []
   targetEmissiveMaterials: []
@@ -165945,6 +165954,8 @@ MonoBehaviour:
   maxTargetContrastFactor: 1.3
   maxWarmthFactor: 0.65
   minReflectionFactor: 0.5
+  enableTwoMinuteForcedAdaptation: 1
+  forcedAdaptationStartSeconds: 120
   transitionSeconds: 2.5
   minSecondsBetweenSteps: 2
   maxAdaptationStepsPerSession: 4
@@ -165964,7 +165975,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b310ccae3c9d2784aad1b30bd59deeb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OculometricFatigueMonitor
-  xrCamera: {fileID: 0}
+  xrCamera: {fileID: 6905811203163607127}
   sampleInterval: 0.02
   evaluationWindowSeconds: 15
   calibrationSeconds: 30
