@@ -13,17 +13,20 @@ using UnityEngine;
 public class AdaptiveFatigueController : MonoBehaviour
 {
     [Header("Modo experimental")]
-    [Tooltip("True = condición adaptativa. False = condición estática (control).")]
+    [Tooltip("True = condición adaptativa..")]
     public bool adaptiveEnabled = true;
     public bool logAdaptations = true;
+    public bool logSetupWarnings = true;
+    [Tooltip("when a change starts and when it finishes")]
+    public bool logVisualChanges = true;
 
     [Header("Referencias")]
     public OculometricFatigueMonitor fatigueMonitor;
     public Light[] sceneLights;
     public Light[] neonLights;
-    [Tooltip("Materiales emisivos del techo/luces.")]
+    [Tooltip("luces.")]
     public Material[] roofEmissiveMaterials;
-    [Tooltip("Materiales emisivos de productos, precios o labels.")]
+    [Tooltip("productos o labels")]
     public Material[] targetEmissiveMaterials;
     public ReflectionProbe[] reflectionProbes;
 
@@ -40,6 +43,13 @@ public class AdaptiveFatigueController : MonoBehaviour
     [Range(1f, 1.5f)] public float maxTargetContrastFactor = 1.30f;
     [Range(0f, 1f)] public float maxWarmthFactor = 0.65f;
     [Range(0.4f, 1f)] public float minReflectionFactor = 0.50f;
+
+    // ===== INICIO MODO 2 MINUTOS () =====
+    [Header("Modo prueba: cambios a los 2 min sin fatiga")]
+    [Tooltip("True = a los 120s aplica calor, brillo y contraste sin eye tracking. False = solo modo fatiga.")]
+    public bool enableTwoMinuteForcedAdaptation = false;
+    public float forcedAdaptationStartSeconds = 120f;
+    // ===== FIN MODO 2 MINUTOS =====
 
     [Header("Timing")]
     public float transitionSeconds = 2.5f;
@@ -59,6 +69,11 @@ public class AdaptiveFatigueController : MonoBehaviour
 
     float lastStepTime = -999f;
     int adaptationStepsApplied;
+    bool loggedCalibrationReady;
+    bool loggedTwoMinuteModeStarted;
+    bool wasBlendingVisuals;
+    int forcedTwoMinuteStepIndex;
+    string lastAppliedTrigger;
 
     float baselineAmbientIntensity;
     float baselineReflectionIntensity;
@@ -106,17 +121,54 @@ public class AdaptiveFatigueController : MonoBehaviour
             adaptationWriter.WriteLine(
                 "systemTimestamp,timeSinceStart,trigger,brightnessFactor,targetContrastFactor,warmthFactor,reflectionFactor,vfi"
             );
+            adaptationWriter.Flush();
+            Debug.Log("[AdaptiveFatigue] adaptation_log en: " + Path.Combine(folder, fileName));
+        }
+
+        if (logSetupWarnings)
+        {
+            ValidateSetup();
         }
 
         ApplyImmediateTargets();
     }
 
+    void ValidateSetup()
+    {
+        if (fatigueMonitor == null)
+        {
+            Debug.LogWarning("[AdaptiveFatigue] fatigueMonitor NO asignado. Arrastra OculometricFatigueMonitor al campo.");
+        }
+
+        if (!adaptiveEnabled)
+        {
+            Debug.Log("[AdaptiveFatigue] adaptiveEnabled=false (condición estática).");
+        }
+
+        if (enableTwoMinuteForcedAdaptation)
+        {
+            Debug.Log(
+                "[AdaptiveFatigue] Modo 2 min ACTIVADO en Inspector. " +
+                "Cambios forzados a los " + forcedAdaptationStartSeconds.ToString("F0") + "s (sin fatiga)."
+            );
+        }
+
+        if (sceneLights == null || sceneLights.Length == 0)
+        {
+            Debug.LogWarning("[AdaptiveFatigue]El brillo global cambiará poco.");
+        }
+
+        if (targetEmissiveMaterials == null || targetEmissiveMaterials.Length == 0)
+        {
+            Debug.LogWarning("[AdaptiveFatigue] targetEmissiveMaterials contraste");
+        }
+    }
 
     void Update()
     {
         SmoothTowardsTargets();
 
-        if (!adaptiveEnabled || fatigueMonitor == null || !fatigueMonitor.IsCalibrated)
+        if (!adaptiveEnabled)
         {
             return;
         }
@@ -124,6 +176,52 @@ public class AdaptiveFatigueController : MonoBehaviour
         if (Time.unscaledTime - lastStepTime < minSecondsBetweenSteps)
         {
             return;
+        }
+
+        // ===== INICIO MODO 2 MINUTOS () =====
+        if (enableTwoMinuteForcedAdaptation)
+        {
+            if (Time.time < forcedAdaptationStartSeconds)
+            {
+                return;
+            }
+
+            if (!loggedTwoMinuteModeStarted)
+            {
+                loggedTwoMinuteModeStarted = true;
+                if (logVisualChanges)
+                {
+                    Debug.Log(
+                        "[AdaptiveFatigue] *** MODO 2 MINUTOS ACTIVO *** " +
+                        "A los " + forcedAdaptationStartSeconds.ToString("F0") +
+                        "s se aplican cambios SIN medir fatiga (calor, brillo, contraste)."
+                    );
+                }
+            }
+
+            ApplyForcedTwoMinuteStep();
+            return;
+        }
+        // ===== FIN MODO 2 MINUTOS =====
+
+        // ===== INICIO MODO FATIGA (comportamiento normal de la tesis) =====
+        if (fatigueMonitor == null)
+        {
+            return;
+        }
+
+        if (!fatigueMonitor.IsCalibrated)
+        {
+            return;
+        }
+
+        if (!loggedCalibrationReady)
+        {
+            loggedCalibrationReady = true;
+            if (logVisualChanges)
+            {
+                Debug.Log("[AdaptiveFatigue] Calibración lista (30s). Cambios solo si hay fatiga detectada.");
+            }
         }
 
         if (adaptationStepsApplied >= maxAdaptationStepsPerSession)
@@ -147,6 +245,30 @@ public class AdaptiveFatigueController : MonoBehaviour
         {
             MaybeRecoverStep();
         }
+        // ===== FIN MODO FATIGA =====
+    }
+
+    void ApplyForcedTwoMinuteStep()
+    {
+        if (forcedTwoMinuteStepIndex >= 3)
+        {
+            return;
+        }
+
+        switch (forcedTwoMinuteStepIndex)
+        {
+            case 0:
+                ApplyWarmthStep("forced_2min_warmth");
+                break;
+            case 1:
+                ApplyBrightnessStep("forced_2min_brightness");
+                break;
+            case 2:
+                ApplyTargetContrastStep("forced_2min_contrast");
+                break;
+        }
+
+        forcedTwoMinuteStepIndex++;
     }
 
     void CaptureBaselines()
@@ -296,19 +418,78 @@ public class AdaptiveFatigueController : MonoBehaviour
     void RegisterAdaptationStep(string trigger, bool countsTowardLimit = true)
     {
         lastStepTime = Time.unscaledTime;
+        lastAppliedTrigger = trigger;
+
         if (countsTowardLimit)
         {
             adaptationStepsApplied++;
         }
 
-        Debug.Log(
-            "[AdaptiveFatigue] " + trigger +
-            " | brightness=" + targetBrightnessFactor.ToString("F2") +
-            " contrast=" + targetTargetContrastFactor.ToString("F2") +
-            " warmth=" + targetWarmthFactor.ToString("F2")
-        );
+        if (logVisualChanges)
+        {
+            Debug.Log("[AdaptiveFatigue] *** APLICANDO CAMBIO *** " + DescribeTrigger(trigger));
+            Debug.Log("[AdaptiveFatigue] Que se modifica -> " + DescribeWhatChanges(trigger));
+            Debug.Log(
+                "[AdaptiveFatigue] Valores objetivo -> brillo=" + targetBrightnessFactor.ToString("F2") +
+                " contraste=" + targetTargetContrastFactor.ToString("F2") +
+                " calor=" + targetWarmthFactor.ToString("F2") +
+                " (transición " + transitionSeconds.ToString("F1") + "s)"
+            );
+        }
+        else
+        {
+            Debug.Log(
+                "[AdaptiveFatigue] " + trigger +
+                " | brightness=" + targetBrightnessFactor.ToString("F2") +
+                " contrast=" + targetTargetContrastFactor.ToString("F2") +
+                " warmth=" + targetWarmthFactor.ToString("F2")
+            );
+        }
 
         LogAdaptation(trigger);
+    }
+
+    string DescribeTrigger(string trigger)
+    {
+        switch (trigger)
+        {
+            case "pupil_instability":
+                return "Tono cálido (inestabilidad pupilar)";
+            case "high_blink_rate":
+                return "Bajar brillo (muchos parpadeos)";
+            case "long_fixation":
+                return "Subir contraste en labels (fijación larga)";
+            case "forced_2min_warmth":
+                return "Tono cálido [modo 2 min, sin fatiga]";
+            case "forced_2min_brightness":
+                return "Bajar brillo [modo 2 min, sin fatiga]";
+            case "forced_2min_contrast":
+                return "Subir contraste en labels [modo 2 min, sin fatiga]";
+            case "recovery":
+                return "Recuperación lenta hacia iluminación normal";
+            default:
+                return trigger;
+        }
+    }
+
+    string DescribeWhatChanges(string trigger)
+    {
+        switch (trigger)
+        {
+            case "pupil_instability":
+            case "forced_2min_warmth":
+                return "Color de luces más cálido + emisión del techo más cálida";
+            case "high_blink_rate":
+            case "forced_2min_brightness":
+                return "Brillo ambiental, intensidad de luces y reflejos del suelo (-15%)";
+            case "long_fixation":
+            case "forced_2min_contrast":
+                return "Emisión de materiales target (precios/labels de productos) +10%";
+            case "recovery":
+                return "Vuelve gradualmente a valores base de brillo, contraste y calor";
+            default:
+                return "Parámetros de iluminación de la escena";
+        }
     }
 
     void SmoothTowardsTargets()
@@ -323,6 +504,32 @@ public class AdaptiveFatigueController : MonoBehaviour
         reflectionFactor = Mathf.MoveTowards(reflectionFactor, targetReflectionFactor, step);
 
         ApplyImmediateTargets();
+
+        bool isBlendingVisuals = IsBlendingVisuals();
+        if (logVisualChanges && wasBlendingVisuals && !isBlendingVisuals)
+        {
+            string changeLabel = string.IsNullOrEmpty(lastAppliedTrigger)
+                ? "adaptación"
+                : DescribeTrigger(lastAppliedTrigger);
+
+            Debug.Log(
+                "[AdaptiveFatigue] *** CAMBIO VISIBLE EN PANTALLA *** " + changeLabel +
+                " | brillo=" + brightnessFactor.ToString("F2") +
+                " contraste=" + targetContrastFactor.ToString("F2") +
+                " calor=" + warmthFactor.ToString("F2") +
+                " | t=" + Time.time.ToString("F1") + "s"
+            );
+        }
+
+        wasBlendingVisuals = isBlendingVisuals;
+    }
+
+    bool IsBlendingVisuals()
+    {
+        return !Mathf.Approximately(brightnessFactor, targetBrightnessFactor)
+            || !Mathf.Approximately(targetContrastFactor, targetTargetContrastFactor)
+            || !Mathf.Approximately(warmthFactor, targetWarmthFactor)
+            || !Mathf.Approximately(reflectionFactor, targetReflectionFactor);
     }
 
     void ApplyImmediateTargets()
