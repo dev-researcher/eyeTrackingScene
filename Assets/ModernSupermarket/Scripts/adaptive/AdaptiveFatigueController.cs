@@ -111,6 +111,7 @@ public class AdaptiveFatigueController : MonoBehaviour
         ApplyImmediateTargets();
     }
 
+
     void Update()
     {
         SmoothTowardsTargets();
