@@ -231,6 +231,7 @@ public class OculometricFatigueMonitor : MonoBehaviour
             }
         }
 
+
         float angle = Vector3.Angle(lastGazeDirection, gazeDirection);
         if (angle <= fixationAngularThresholdDegrees)
         {
