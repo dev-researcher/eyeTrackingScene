@@ -48096,7 +48096,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 866469670}
+    m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 352633642710385627, guid: 9b7adf73635f22c42a07c589a39b3a4c,
         type: 3}
@@ -56409,7 +56409,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 866469670}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &745548559
 PrefabInstance:
@@ -67145,9 +67145,6 @@ Transform:
   - {fileID: 184981999}
   - {fileID: 729397841}
   - {fileID: 1599532537}
-  - {fileID: 1941324850}
-  - {fileID: 2035111235}
-  - {fileID: 744818085}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &866644554
@@ -143929,7 +143926,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VarjoOpenXRGazeLogger
   participantId: P00Ariana
-  condition: supermarket
+  condition: adapted
   xrCamera: {fileID: 6905811203163607127}
   playerTransform: {fileID: 197634278}
   sampleInterval: 0.02
@@ -162079,7 +162076,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 866469670}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 45, y: 45.000004, z: 0}
 --- !u!114 &2035111237
 MonoBehaviour:
@@ -165930,10 +165927,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a602e1e035415ad47955331ffb07005f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AdaptiveFatigueController
-  adaptiveEnabled: 1
+  adaptiveEnabled: 0
   logAdaptations: 1
   logSetupWarnings: 1
   logVisualChanges: 1
+  predefinedAdaptedCondition: 1
+  predefinedBrightnessFactor: 0.85
+  predefinedLabelEmissionFactor: 1.1
+  predefinedWarmthFactor: 0.12
+  baselineSeconds: 30
+  warmthDelayAfterBaselineSeconds: 2.5
   fatigueMonitor: {fileID: 2107795524}
   sceneLights:
   - {fileID: 1334954348}
@@ -165954,7 +165957,7 @@ MonoBehaviour:
   maxTargetContrastFactor: 1.3
   maxWarmthFactor: 0.65
   minReflectionFactor: 0.5
-  enableTwoMinuteForcedAdaptation: 1
+  enableTwoMinuteForcedAdaptation: 0
   forcedAdaptationStartSeconds: 120
   transitionSeconds: 2.5
   minSecondsBetweenSteps: 2
@@ -172135,12 +172138,14 @@ SceneRoots:
   m_Roots:
   - {fileID: 2107795522}
   - {fileID: 866469670}
+  - {fileID: 1941324850}
+  - {fileID: 2035111235}
+  - {fileID: 744818085}
   - {fileID: 177311046}
   - {fileID: 581876911}
   - {fileID: 313761475}
   - {fileID: 1620383242}
   - {fileID: 526734164}
-  - {fileID: 177341558}
   - {fileID: 1720598986}
   - {fileID: 1100750366}
   - {fileID: 653522800}
@@ -172151,3 +172156,4 @@ SceneRoots:
   - {fileID: 1201105226}
   - {fileID: 197634278}
   - {fileID: 1430075192}
+  - {fileID: 177341558}
