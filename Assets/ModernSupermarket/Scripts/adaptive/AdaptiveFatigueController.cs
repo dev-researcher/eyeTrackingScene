@@ -20,6 +20,15 @@ public class AdaptiveFatigueController : MonoBehaviour
     [Tooltip("when a change starts and when it finishes")]
     public bool logVisualChanges = true;
 
+    [Header("Condición Adapted de la tesis")]
+    [Tooltip("Predefinida, no en tiempo real. Brillo global -15% y labels +10% desde el inicio. Tinte cálido 0.12 a los 2.5 s después de la línea base de 30 s.")]
+    public bool predefinedAdaptedCondition = false;
+    [Range(0.5f, 1f)] public float predefinedBrightnessFactor = 0.85f;
+    [Range(1f, 1.5f)] public float predefinedLabelEmissionFactor = 1.10f;
+    [Range(0f, 1f)] public float predefinedWarmthFactor = 0.12f;
+    public float baselineSeconds = 30f;
+    public float warmthDelayAfterBaselineSeconds = 2.5f;
+
     [Header("Referencias")]
     public OculometricFatigueMonitor fatigueMonitor;
     public Light[] sceneLights;
@@ -72,6 +81,7 @@ public class AdaptiveFatigueController : MonoBehaviour
     bool loggedCalibrationReady;
     bool loggedTwoMinuteModeStarted;
     bool wasBlendingVisuals;
+    bool predefinedWarmthApplied;
     int forcedTwoMinuteStepIndex;
     string lastAppliedTrigger;
 
@@ -96,6 +106,8 @@ public class AdaptiveFatigueController : MonoBehaviour
         public Material material;
         public Color emissionColor;
         public bool emissionEnabled;
+        public Color baseColor;
+        public string baseColorProperty;
     }
 
     struct ProbeBaseline
@@ -130,6 +142,25 @@ public class AdaptiveFatigueController : MonoBehaviour
             ValidateSetup();
         }
 
+        if (predefinedAdaptedCondition)
+        {
+            brightnessFactor = targetBrightnessFactor = predefinedBrightnessFactor;
+            reflectionFactor = targetReflectionFactor = predefinedBrightnessFactor;
+            targetContrastFactor = targetTargetContrastFactor = predefinedLabelEmissionFactor;
+            warmthFactor = targetWarmthFactor = 0f;
+
+            if (logVisualChanges)
+            {
+                Debug.Log(
+                    "[AdaptiveFatigue] Condición Adapted desde el inicio. Brillo=" +
+                    predefinedBrightnessFactor.ToString("F2") +
+                    " labels=" + predefinedLabelEmissionFactor.ToString("F2") +
+                    ". Tinte cálido " + predefinedWarmthFactor.ToString("F2") +
+                    " a los " + (baselineSeconds + warmthDelayAfterBaselineSeconds).ToString("F1") + "s."
+                );
+            }
+        }
+
         ApplyImmediateTargets();
     }
 
@@ -140,7 +171,11 @@ public class AdaptiveFatigueController : MonoBehaviour
             Debug.LogWarning("[AdaptiveFatigue] fatigueMonitor NO asignado. Arrastra OculometricFatigueMonitor al campo.");
         }
 
-        if (!adaptiveEnabled)
+        if (predefinedAdaptedCondition)
+        {
+            Debug.Log("[AdaptiveFatigue] Condición Adapted predefinida de la tesis.");
+        }
+        else if (!adaptiveEnabled)
         {
             Debug.Log("[AdaptiveFatigue] adaptiveEnabled=false (condición estática).");
         }
@@ -158,7 +193,7 @@ public class AdaptiveFatigueController : MonoBehaviour
             Debug.LogWarning("[AdaptiveFatigue]El brillo global cambiará poco.");
         }
 
-        if (targetEmissiveMaterials == null || targetEmissiveMaterials.Length == 0)
+        if (!predefinedAdaptedCondition && (targetEmissiveMaterials == null || targetEmissiveMaterials.Length == 0))
         {
             Debug.LogWarning("[AdaptiveFatigue] targetEmissiveMaterials contraste");
         }
@@ -167,6 +202,12 @@ public class AdaptiveFatigueController : MonoBehaviour
     void Update()
     {
         SmoothTowardsTargets();
+
+        if (predefinedAdaptedCondition)
+        {
+            ApplyPredefinedWarmth();
+            return;
+        }
 
         if (!adaptiveEnabled)
         {
@@ -276,11 +317,105 @@ public class AdaptiveFatigueController : MonoBehaviour
         baselineAmbientIntensity = RenderSettings.ambientIntensity;
         baselineReflectionIntensity = RenderSettings.reflectionIntensity;
 
+        if (predefinedAdaptedCondition)
+        {
+            sceneLights = FindObjectsByType<Light>(FindObjectsSortMode.None);
+            reflectionProbes = FindObjectsByType<ReflectionProbe>(FindObjectsSortMode.None);
+            PrepareLabelMaterials();
+        }
+
         CacheLightBaselines(sceneLights);
         CacheLightBaselines(neonLights);
         CacheMaterialBaselines(roofEmissiveMaterials, roofMaterialBaselines);
-        CacheMaterialBaselines(targetEmissiveMaterials, targetMaterialBaselines);
+        if (!predefinedAdaptedCondition)
+        {
+            CacheMaterialBaselines(targetEmissiveMaterials, targetMaterialBaselines);
+        }
         CacheProbeBaselines(reflectionProbes);
+    }
+
+    void PrepareLabelMaterials()
+    {
+        Renderer[] renderers = FindObjectsByType<Renderer>(FindObjectsSortMode.None);
+        var clones = new Dictionary<Material, Material>();
+
+        for (int r = 0; r < renderers.Length; r++)
+        {
+            Material[] slots = renderers[r].sharedMaterials;
+            bool changed = false;
+            for (int s = 0; s < slots.Length; s++)
+            {
+                Material source = slots[s];
+                if (source == null || source.name.IndexOf("Label", StringComparison.OrdinalIgnoreCase) < 0)
+                {
+                    continue;
+                }
+
+                if (!clones.TryGetValue(source, out Material clone))
+                {
+                    clone = Instantiate(source);
+                    clone.name = source.name;
+                    clones.Add(source, clone);
+
+                    string baseProp = clone.HasProperty("_BaseColor")
+                        ? "_BaseColor"
+                        : clone.HasProperty("_Color") ? "_Color" : null;
+                    Color emissionColor = Color.black;
+                    if (clone.HasProperty("_EmissiveColor"))
+                    {
+                        emissionColor = clone.GetColor("_EmissiveColor");
+                    }
+                    else if (clone.HasProperty("_EmissionColor"))
+                    {
+                        emissionColor = clone.GetColor("_EmissionColor");
+                    }
+
+                    targetMaterialBaselines.Add(new MaterialBaseline
+                    {
+                        material = clone,
+                        emissionColor = emissionColor,
+                        emissionEnabled = emissionColor.maxColorComponent > 0.001f,
+                        baseColor = baseProp != null ? clone.GetColor(baseProp) : Color.white,
+                        baseColorProperty = baseProp
+                    });
+                }
+
+                slots[s] = clone;
+                changed = true;
+            }
+
+            if (changed)
+            {
+                renderers[r].sharedMaterials = slots;
+            }
+        }
+    }
+
+    void ApplyPredefinedWarmth()
+    {
+        if (predefinedWarmthApplied)
+        {
+            return;
+        }
+
+        if (Time.time < baselineSeconds + warmthDelayAfterBaselineSeconds)
+        {
+            return;
+        }
+
+        targetWarmthFactor = predefinedWarmthFactor;
+        predefinedWarmthApplied = true;
+        lastAppliedTrigger = "predefined_warm_tint";
+
+        if (logVisualChanges)
+        {
+            Debug.Log(
+                "[AdaptiveFatigue] Tinte cálido " + predefinedWarmthFactor.ToString("F2") +
+                " aplicado a los " + Time.time.ToString("F1") + "s."
+            );
+        }
+
+        LogAdaptation("predefined_warm_tint");
     }
 
     void CacheLightBaselines(Light[] lights)
@@ -570,12 +705,29 @@ public class AdaptiveFatigueController : MonoBehaviour
         for (int i = 0; i < targetMaterialBaselines.Count; i++)
         {
             MaterialBaseline baseline = targetMaterialBaselines[i];
-            if (baseline.material == null || !baseline.emissionEnabled)
+            if (baseline.material == null)
             {
                 continue;
             }
 
-            baseline.material.SetColor("_EmissionColor", baseline.emissionColor * targetContrastFactor);
+            if (baseline.emissionEnabled)
+            {
+                Color boostedEmission = baseline.emissionColor * targetContrastFactor;
+                if (baseline.material.HasProperty("_EmissiveColor"))
+                {
+                    baseline.material.SetColor("_EmissiveColor", boostedEmission);
+                }
+                if (baseline.material.HasProperty("_EmissionColor"))
+                {
+                    baseline.material.SetColor("_EmissionColor", boostedEmission);
+                }
+            }
+            else if (!string.IsNullOrEmpty(baseline.baseColorProperty))
+            {
+                baseline.material.SetColor(
+                    baseline.baseColorProperty,
+                    baseline.baseColor * targetContrastFactor);
+            }
         }
 
         for (int i = 0; i < probeBaselines.Count; i++)

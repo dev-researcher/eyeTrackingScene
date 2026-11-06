@@ -143926,7 +143926,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VarjoOpenXRGazeLogger
   participantId: P00Ariana
-  condition: static
+  condition: adapted
   xrCamera: {fileID: 6905811203163607127}
   playerTransform: {fileID: 197634278}
   sampleInterval: 0.02
@@ -165931,6 +165931,12 @@ MonoBehaviour:
   logAdaptations: 1
   logSetupWarnings: 1
   logVisualChanges: 1
+  predefinedAdaptedCondition: 1
+  predefinedBrightnessFactor: 0.85
+  predefinedLabelEmissionFactor: 1.1
+  predefinedWarmthFactor: 0.12
+  baselineSeconds: 30
+  warmthDelayAfterBaselineSeconds: 2.5
   fatigueMonitor: {fileID: 2107795524}
   sceneLights:
   - {fileID: 1334954348}
