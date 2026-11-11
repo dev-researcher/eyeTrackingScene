@@ -128,7 +128,10 @@ public class AdaptiveFatigueController : MonoBehaviour
             string folder = Path.Combine(Application.persistentDataPath, "EyeTrackingData");
             Directory.CreateDirectory(folder);
 
-            string fileName = "adaptation_log_" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".csv";
+            VarjoOpenXRGazeLogger gaze = FindAnyObjectByType<VarjoOpenXRGazeLogger>();
+            string participant = gaze != null ? gaze.participantId : "unknown";
+            string condition = gaze != null ? gaze.condition : "unknown";
+            string fileName = participant + "_" + condition + "_adaptation_" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".csv";
             adaptationWriter = new StreamWriter(Path.Combine(folder, fileName), false);
             adaptationWriter.WriteLine(
                 "systemTimestamp,timeSinceStart,trigger,brightnessFactor,targetContrastFactor,warmthFactor,reflectionFactor,vfi"

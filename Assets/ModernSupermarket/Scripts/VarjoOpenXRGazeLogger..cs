@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.XR;
 
 public class VarjoOpenXRGazeLogger : MonoBehaviour
@@ -18,6 +19,13 @@ public class VarjoOpenXRGazeLogger : MonoBehaviour
     [Header("Sampling")]
     public float sampleInterval = 0.02f; // 0.02 = 50 Hz
 
+    [Header("Cambio de escena")]
+    [Tooltip("La otra escena del experimento. Se carga sola y esta se cierra.")]
+    public string otherSceneName;
+    public KeyCode switchSceneKey = KeyCode.F2;
+
+    static string sessionParticipantId;
+
     private StreamWriter writer;
     private string filePath;
     private float timer = 0f;
@@ -25,6 +33,18 @@ public class VarjoOpenXRGazeLogger : MonoBehaviour
     // private bool purchasePressedThisFrame = false;
     // private bool previousLeftBButtonState = false;
     // private bool previousRightBButtonState = false;
+
+    void Awake()
+    {
+        if (!string.IsNullOrEmpty(sessionParticipantId))
+        {
+            participantId = sessionParticipantId;
+        }
+        else
+        {
+            sessionParticipantId = participantId;
+        }
+    }
 
     void Start()
     {
@@ -52,11 +72,28 @@ public class VarjoOpenXRGazeLogger : MonoBehaviour
             // "purchaseCount,purchasePressed"
         );
 
-        Debug.Log("Guardando datos eye tracking en: " + filePath);
+        Debug.Log(
+            "Escena " + SceneManager.GetActiveScene().name +
+            " | condicion " + condition +
+            " | participante " + participantId +
+            " | archivo " + filePath
+        );
     }
 
     void Update()
     {
+        if (Input.GetKeyDown(switchSceneKey) && !string.IsNullOrEmpty(otherSceneName))
+        {
+            sessionParticipantId = participantId;
+            Debug.Log(
+                "Cerrando " + SceneManager.GetActiveScene().name +
+                " (" + condition + ") y abriendo " + otherSceneName
+            );
+            CloseWriter();
+            SceneManager.LoadScene(otherSceneName, LoadSceneMode.Single);
+            return;
+        }
+
         // purchasePressedThisFrame = false;
 
         timer += Time.deltaTime;
@@ -189,12 +226,25 @@ public class VarjoOpenXRGazeLogger : MonoBehaviour
         return value.ToString("F6", CultureInfo.InvariantCulture);
     }
 
+    void OnDestroy()
+    {
+        CloseWriter();
+    }
+
     void OnApplicationQuit()
     {
-        if (writer != null)
+        CloseWriter();
+    }
+
+    void CloseWriter()
+    {
+        if (writer == null)
         {
-            writer.Flush();
-            writer.Close();
+            return;
         }
+
+        writer.Flush();
+        writer.Close();
+        writer = null;
     }
 }

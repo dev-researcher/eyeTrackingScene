@@ -11,12 +11,14 @@ public class PurchaseIntentLogger : MonoBehaviour
 
     void Start()
     {
-        filePath = Path.Combine(Application.dataPath, "purchase_intent_log.csv");
-
-        if (!File.Exists(filePath))
-        {
-            File.WriteAllText(filePath, "Count,Timestamp,TimeSinceStart\n");
-        }
+        VarjoOpenXRGazeLogger gaze = FindAnyObjectByType<VarjoOpenXRGazeLogger>();
+        string participant = gaze != null ? gaze.participantId : "unknown";
+        string condition = gaze != null ? gaze.condition : "unknown";
+        string folder = Path.Combine(Application.persistentDataPath, "EyeTrackingData");
+        Directory.CreateDirectory(folder);
+        string fileName = participant + "_" + condition + "_purchases_" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".csv";
+        filePath = Path.Combine(folder, fileName);
+        File.WriteAllText(filePath, "participantId,condition,Count,Timestamp,TimeSinceStart\n");
 
         Debug.Log("Purchase logger listo. Archivo: " + filePath);
     }
@@ -30,7 +32,10 @@ public class PurchaseIntentLogger : MonoBehaviour
             string timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
             string timeSinceStart = Time.time.ToString("F3");
 
-            string line = purchaseCount + "," + timestamp + "," + timeSinceStart + "\n";
+            VarjoOpenXRGazeLogger gaze = FindAnyObjectByType<VarjoOpenXRGazeLogger>();
+            string participant = gaze != null ? gaze.participantId : "unknown";
+            string condition = gaze != null ? gaze.condition : "unknown";
+            string line = participant + "," + condition + "," + purchaseCount + "," + timestamp + "," + timeSinceStart + "\n";
             File.AppendAllText(filePath, line);
 
             Debug.Log("Compra simulada #" + purchaseCount + " registrada en " + timestamp);

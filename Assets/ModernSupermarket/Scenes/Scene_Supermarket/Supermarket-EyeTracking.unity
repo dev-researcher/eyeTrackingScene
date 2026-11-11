@@ -143930,6 +143930,8 @@ MonoBehaviour:
   xrCamera: {fileID: 6905811203163607127}
   playerTransform: {fileID: 197634278}
   sampleInterval: 0.02
+  otherSceneName: Supermarket-EyeTracking-Base
+  switchSceneKey: 283
 --- !u!4 &1832898762
 Transform:
   m_ObjectHideFlags: 0
